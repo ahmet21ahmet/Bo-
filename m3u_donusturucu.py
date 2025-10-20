@@ -6,7 +6,7 @@ import re
 # --- AYARLAR ---
 
 # Kaynak M3U listesinin URL'si
-SOURCE_URL = "https://raw.githubusercontent.com/zerodayip/m3u8file/main/setfilmizle.m3u"
+SOURCE_URL = "https://raw.githubusercontent.com/ahmet21ahmet/Kablo/main/setfilmizlefilm.m3u"
 
 # Dönüştürülmüş listenin kaydedileceği dosya adı
 OUTPUT_FILE = "son_liste.m3u"
