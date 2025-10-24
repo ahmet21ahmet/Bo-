@@ -1,0 +1,58 @@
+# Bu GitHub Actions workflow'u, M3U listesini otomatik olarak günceller.
+# 'schedule' ile her gün UTC 00:00'da çalışır.
+# 'workflow_dispatch' ile manuel olarak da tetiklenebilir.
+
+name: ACESTREAM M3U Listesini Otomatik Güncelle
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Her gün UTC 00:00'da çalıştır (Türkiye saati ile 03:00)
+    - cron: '0 0 * * *'
+
+permissions:
+  # Depoya kod yazma (commit/push) izni
+  contents: write
+
+jobs:
+  update-list:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Depo kodunu klonla
+      - name: Depoyu Klonla
+        uses: actions/checkout@v4
+
+      # 2. Python 3.x kur
+      - name: Python 3 Kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      # 3. Python bağımlılıklarını kur (sadece 'requests' gerekli)
+      - name: Bağımlılıkları Kur
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      # 4. Python betiğini çalıştır
+      - name: M3U Betiğini Çalıştır
+        run: python ace.py
+
+      # 5. Değişiklikleri depoya commit'le ve push'la
+      - name: Değişiklikleri Commit'le
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # 'processed_list.m3u' dosyasını ekle
+          git add processed_list.m3u
+          
+          # Sadece değişiklik varsa commit at
+          # 'git diff --staged --quiet' komutu değişiklik yoksa 0 (başarılı) döner
+          if git diff --staged --quiet; then
+            echo "Değişiklik yok, commit atılmıyor."
+          else
+            echo "Değişiklikler bulundu, commit atılıyor."
+            git commit -m "Oto-güncellenen M3U listesi"
+            git push
+          fi
