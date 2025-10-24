@@ -36,6 +36,10 @@ def process_m3u():
     try:
         response = requests.get(SOURCE_URL, timeout=10)
         response.raise_for_status()  # HTTP hatası varsa istisna fırlat
+        
+        # --- GÜNCELLEME 1: Kaynak kodlamayı UTF-8 olarak garanti et ---
+        response.encoding = 'utf-8' 
+
     except requests.exceptions.RequestException as e:
         print(f"Hata: M3U dosyası indirilemedi. {e}", file=sys.stderr)
         return
@@ -98,7 +102,8 @@ def process_m3u():
 
     # İşlenmiş M3U içeriğini dosyaya yaz
     try:
-        with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+        # --- GÜNCELLEME 2: Çıktı kodlamasını 'utf-8-sig' (BOM ile UTF-8) yap ---
+        with open(OUTPUT_FILE, 'w', encoding='utf-8-sig') as f:
             for line in processed_lines:
                 f.write(line + '\n')
         print(f"İşlem tamamlandı. Dosya kaydedildi: {OUTPUT_FILE}")
