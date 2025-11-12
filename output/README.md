@@ -1,8 +1,8 @@
 # ÇizgiVeDizi Arşivi
-**Son Güncelleme:** 2025-11-12 00:47:14 (UTC)
+**Son Güncelleme:** 2025-11-12 06:15:19 (UTC)
 ---
 ## İstatistikler
-- **Toplam Dizi Bulundu:** 46
-- **Başarıyla İşlenen Dizi:** 16
+- **Toplam Dizi Bulundu:** 0
+- **Başarıyla İşlenen Dizi:** 0
 - **Oluşturulan M3U Dosyası:** 0
-- **Hata Alınan Dizi Sayısı:** 30
+- **Hata Alınan Dizi Sayısı:** 0
